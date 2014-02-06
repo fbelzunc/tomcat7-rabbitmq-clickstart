@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 /**
@@ -20,20 +21,20 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 
-@WebServlet(value = "/rabitmq/client")
+@WebServlet(value = "/rabbitmq/client")
 public class RabitMQClient extends HttpServlet {
 
-    private final static String QUEUE_NAME = "hello";
+    private final static String QUEUE_NAME = "felix";
 
     @Override
-    protected void doGet(HttpServletRequest request,
+    protected void doPost(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         factory.setVirtualHost("/");
         factory.setUsername("guest");
-        factory.setPassword("felix06");
+        factory.setPassword("felix066");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
@@ -43,7 +44,8 @@ public class RabitMQClient extends HttpServlet {
         QueueingConsumer consumer = new QueueingConsumer(channel);
         channel.basicConsume(QUEUE_NAME, true, consumer);
 
-        while (true) {
+        //while (true) {
+        	//for (int i=0; i<4; i++){
             QueueingConsumer.Delivery delivery = null;
             try {
                 delivery = consumer.nextDelivery();
@@ -53,10 +55,13 @@ public class RabitMQClient extends HttpServlet {
             String message = new String(delivery.getBody());
             System.out.println(" [x] Received '" + message + "'");
 
-            //request.setAttribute("message", message);
-            //request.getRequestDispatcher("/indexServlet").forward(request, response);
-            //response.sendRedirect("index.jsp");
-        }
+            request.setAttribute("message", message);
+            //request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+            //request.getRequestDispatcher("/index.jsp").forward(request, response);
+            //response.sendRedirect(request.getContextPath() +"/indexServlet");
+        	//}
+        	request.getRequestDispatcher("/index.jsp").forward(request, response);
+        //}
 
     }
 }

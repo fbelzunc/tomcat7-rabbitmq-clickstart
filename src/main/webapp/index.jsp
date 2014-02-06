@@ -11,20 +11,20 @@
 
 <h1>Tomcat 7 RabitMQ ClickStart</h1>
 
-<a href="/rabitmq/configuration">Launch RabbitMQ server</a>
-</br>
-<a href="/rabitmq/client">Launch RabbitMQ client</a>
 
-
-<form action="${pageContext.request.contextPath}/rabitmq/configuration" method="post">
+<form action="${pageContext.request.contextPath}/rabbitmq/server" method="post">
 
     <div>
         <label>Message:</label>
         <input type="text" name="message" id="message"/>
+        <input type="submit" name="add" value="Add new product"/>
     </div>
+</form>
+
+<form action="${pageContext.request.contextPath}/rabbitmq/client" method="post">
 
     <div>
-        <input type="submit" name="add" value="Add new product"/>
+        <input type="submit" name="Get" value="Get the messagr"/>
     </div>
 </form>
 
@@ -36,7 +36,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${message}" var="product">
+    <c:forEach items="${message}" var="message">
         <tr>
             <td>${message}</td>
         </tr>

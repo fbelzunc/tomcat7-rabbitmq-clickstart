@@ -19,22 +19,24 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 
-@WebServlet(value = "/rabitmq/configuration")
+@WebServlet(value = "/rabbitmq/server")
 public class RabitMQServer extends HttpServlet {
 
-    private final static String QUEUE_NAME = "hello";
+    private final static String QUEUE_NAME = "felix";
 
     @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
 
         String message = request.getParameter("message");
+        System.out.println("message= " + message);
+        
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         factory.setVirtualHost("/");
         factory.setUsername("guest");
-        factory.setPassword("felix06");
+        factory.setPassword("felix066");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
@@ -46,7 +48,8 @@ public class RabitMQServer extends HttpServlet {
         channel.close();
         connection.close();
 
-        response.sendRedirect(request.getContextPath() + "/rabitmq/client");
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        //response.sendRedirect(request.getContextPath() + "/rabbitmq/client");
 
     }
 
