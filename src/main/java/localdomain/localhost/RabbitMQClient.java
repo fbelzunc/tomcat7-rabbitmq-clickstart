@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = "/rabbitmq/client")
-public class RabitMQClient extends HttpServlet {
+public class RabbitMQClient extends HttpServlet {
 
     private final static String QUEUE_NAME = "myqueue";
 
@@ -50,6 +50,7 @@ public class RabitMQClient extends HttpServlet {
         System.out.println(" [***] Waiting for messages. To exit press CTRL+C");
         
         QueueingConsumer consumer = new QueueingConsumer(channel);
+        
         boolean autoACK = false;
         channel.basicConsume(QUEUE_NAME, false, consumer);
  

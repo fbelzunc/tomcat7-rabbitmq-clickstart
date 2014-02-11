@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = "/rabbitmq/server")
-public class RabitMQServer extends HttpServlet {
+public class RabbitMQServer extends HttpServlet {
 
     private final static String QUEUE_NAME = "myqueue";
 
@@ -51,7 +51,8 @@ public class RabitMQServer extends HttpServlet {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        boolean durable = true;
+        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
 
         channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         System.out.println(" [x] Sent '" + message + "'");

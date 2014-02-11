@@ -13,7 +13,6 @@
 
 <h2>Send a message</h2>
 <form action="${pageContext.request.contextPath}/rabbitmq/server" method="post">
-
     <div>
         <label>Message:</label>
         <input type="text" name="message" id="message"/>
@@ -23,13 +22,11 @@
 
 <h2>Get a message</h2>
 <form action="${pageContext.request.contextPath}/rabbitmq/client" method="post">
-
     <div>
          <input type="submit" name="Get" value="Get message"/>
     </div>
 </form>
 <br>
 Last message get from the queue: ${message}
-
 </body>
 </html>
