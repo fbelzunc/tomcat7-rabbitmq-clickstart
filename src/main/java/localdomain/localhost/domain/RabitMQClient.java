@@ -24,7 +24,7 @@ import java.io.IOException;
 @WebServlet(value = "/rabbitmq/client")
 public class RabitMQClient extends HttpServlet {
 
-    private final static String QUEUE_NAME = "felix";
+    private final static String QUEUE_NAME = "felix3";
 
     @Override
     protected void doPost(HttpServletRequest request,
@@ -38,30 +38,59 @@ public class RabitMQClient extends HttpServlet {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        System.out.println(" [***] Waiting for messages. To exit press CTRL+C");
 
+        //channel.basicQos(1);
+        
         QueueingConsumer consumer = new QueueingConsumer(channel);
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        //autoACK
+        channel.basicConsume(QUEUE_NAME, false, consumer);
 
         //while (true) {
-        	//for (int i=0; i<4; i++){
-            QueueingConsumer.Delivery delivery = null;
+        	//for (int i=0; i<5; i++){
+ 
             try {
-                delivery = consumer.nextDelivery();
-            } catch (InterruptedException e) {
+            	System.out.println(" [***] Waiting 1 ***************");
+            	 QueueingConsumer.Delivery delivery = consumer.nextDelivery(100);
+            	 if(delivery!=null)
+            	 {	 
+            	 
+	            	 System.out.println(" [***] Waiting 2****************************************");
+	            	 String message = new String(delivery.getBody());
+	               
+	            	 System.out.println(" [x] Received '" + message + "'");   
+	            	 
+	                 System.out.println(" [x] Done new" );
+	
+	                 channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+	            	 
+	                 request.setAttribute("message", message);
+	            	 request.getRequestDispatcher("/index.jsp").forward(request, response);
+	                 
+	            	  channel.close();
+	                  connection.close();
+	                  //request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+	                  //request.getRequestDispatcher("/index.jsp").forward(request, response);
+	                  //response.sendRedirect(request.getContextPath() +"/indexServlet");
+	              	//}
+            	 }else{
+            		 String message = "NO NEW MESSAGE ON THE QUEUE";
+            		 request.setAttribute("message", message);
+	            	 request.getRequestDispatcher("/index.jsp").forward(request, response);
+	                 
+	            	  channel.close();
+	                  connection.close();
+            		 
+            	 }
+              	
+            } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            String message = new String(delivery.getBody());
-            System.out.println(" [x] Received '" + message + "'");
-
-            request.setAttribute("message", message);
-            //request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-            //request.getRequestDispatcher("/index.jsp").forward(request, response);
-            //response.sendRedirect(request.getContextPath() +"/indexServlet");
-        	//}
-        	request.getRequestDispatcher("/index.jsp").forward(request, response);
+          
         //}
 
     }
+    
+    
 }

@@ -3,12 +3,14 @@ package localdomain.localhost.domain;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.MessageProperties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 /**
@@ -22,7 +24,7 @@ import java.io.IOException;
 @WebServlet(value = "/rabbitmq/server")
 public class RabitMQServer extends HttpServlet {
 
-    private final static String QUEUE_NAME = "felix";
+    private final static String QUEUE_NAME = "felix3";
 
     @Override
     protected void doPost(HttpServletRequest request,
@@ -40,9 +42,9 @@ public class RabitMQServer extends HttpServlet {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
 
-        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+        channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         System.out.println(" [x] Sent '" + message + "'");
 
         channel.close();
