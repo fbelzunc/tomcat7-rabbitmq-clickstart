@@ -1,0 +1,21 @@
+{
+    "id": "tomcat7-rabbitmq-clickstart",
+    "name": "Tomcat 7 RabbitMQ ClickStart",
+    "source": "git://github.com/fbelzunc/tomcat7-rabbitmq-clickstart.git",
+    "description" : "Tomcat 7 RabbitMQ ClickStart",
+    "doc-url" : "https://github.com/CloudBees-community/tomcat7-spring-hibernate-jpa-clickstart/blob/master/README.md",
+    "icon" : "https://raw.github.com/CloudBees-community/tomcat7-spring-hibernate-jpa-clickstart/master/icon.png",
+
+    "supported-by" : "cloudbees",
+    "order" : 100,
+    "disabled" : "true",
+
+    "runtime": {
+        "type": "tomcat7"
+    },
+    "build-with-jenkins": {
+        "template": {
+            "type": "maven"
+        }
+    }
+}
