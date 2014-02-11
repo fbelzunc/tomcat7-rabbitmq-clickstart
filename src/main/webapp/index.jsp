@@ -11,38 +11,25 @@
 
 <h1>Tomcat 7 RabitMQ ClickStart</h1>
 
-
+<h2>Send a message</h2>
 <form action="${pageContext.request.contextPath}/rabbitmq/server" method="post">
 
     <div>
         <label>Message:</label>
         <input type="text" name="message" id="message"/>
-        <input type="submit" name="add" value="Add new product"/>
+        <input type="submit" name="add" value="Send message"/>
     </div>
 </form>
 
+<h2>Get a message</h2>
 <form action="${pageContext.request.contextPath}/rabbitmq/client" method="post">
 
     <div>
-        <input type="submit" name="Get" value="Get the messagr"/>
+         <input type="submit" name="Get" value="Get message"/>
     </div>
 </form>
-
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>Message</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${message}" var="message">
-        <tr>
-            <td>${message}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<br>
+Last message get from the queue: ${message}
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2010-2013, CloudBees Inc.
+  ~ Copyright 2010-2014, CloudBees Inc.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -18,9 +18,4 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         id="tomcat7-rabitmq-clickstart" version="3.0" metadata-complete="false">
-
-<welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>  
-</welcome-file-list>
-
 </web-app>
