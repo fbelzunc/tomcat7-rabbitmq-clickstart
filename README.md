@@ -32,7 +32,10 @@ RabbitMQServer.java
 RabbitMQClient.java
 ```java
  	boolean autoACK = false;
-   	channel.basicConsume(QUEUE_NAME, false, consumer);
+    channel.basicConsume(QUEUE_NAME, autoACK, consumer);
+```
+```java
+ 	channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 ```
 
 ## Configure RabbitMQ in your application
