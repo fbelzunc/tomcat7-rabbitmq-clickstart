@@ -52,7 +52,7 @@ public class RabbitMQClient extends HttpServlet {
         QueueingConsumer consumer = new QueueingConsumer(channel);
         
         boolean autoACK = false;
-        channel.basicConsume(QUEUE_NAME, false, consumer);
+        channel.basicConsume(QUEUE_NAME, autoACK, consumer);
  
         try {
         	System.out.println(" [*] Waiting 100ms for a message");
