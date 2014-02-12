@@ -1,4 +1,4 @@
-Welcome to Tomcat 7 RabbitMQ ClickStart-
+Welcome to Tomcat 7 RabbitMQ ClickStart
 
 This is a "ClickStart" that gets you going with a simple RabbitMQ "seed" project starting point, which will show you the way you should use RabbitMQ on CloudBees platform.
 
