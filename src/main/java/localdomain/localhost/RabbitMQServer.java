@@ -29,6 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 @WebServlet(value = "/rabbitmq/server")
 public class RabbitMQServer extends HttpServlet {
@@ -39,28 +42,32 @@ public class RabbitMQServer extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
 
-        String message = request.getParameter("message");
-        System.out.println("message= " + message);    
+       
+        try {
+			String message = request.getParameter("message");
+			System.out.println("message= " + message);    
+			 
+			
+			ConnectionFactory factory = new ConnectionFactory();
+        	String uri = System.getProperty("CLOUDAMQP_URL");
+			factory.setUri(uri);
+	        Connection connection = factory.newConnection();
+	        Channel channel = connection.createChannel();
 
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        factory.setVirtualHost("/");
-        factory.setUsername("guest");
-        factory.setPassword("felix066");
-        
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+	        boolean durable = true;
+	        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
 
-        boolean durable = true;
-        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
+	        channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+	        System.out.println(" [x] Sent '" + message + "'");
 
-        channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
-        System.out.println(" [x] Sent '" + message + "'");
+	        channel.close();
+	        connection.close();
 
-        channel.close();
-        connection.close();
-
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+	        response.sendRedirect(request.getContextPath() + "/index.jsp");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 }

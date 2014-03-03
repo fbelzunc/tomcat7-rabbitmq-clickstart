@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tomcat 7 RabitMQ ClickStart</title>
+    <title>Tomcat 7 RabbitMQ ClickStart</title>
 </head>
 
 <body>
 
-<h1>Tomcat 7 RabitMQ ClickStart</h1>
+<h1>Tomcat 7 RabbitMQ ClickStart</h1>
 
 <h2>Send a message</h2>
 <form action="${pageContext.request.contextPath}/rabbitmq/server" method="post">
