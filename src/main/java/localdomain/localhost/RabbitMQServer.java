@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package localdomain.localhost;
 
 import com.rabbitmq.client.Channel;
@@ -36,38 +35,37 @@ import java.security.NoSuchAlgorithmException;
 @WebServlet(value = "/rabbitmq/server")
 public class RabbitMQServer extends HttpServlet {
 
-    private final static String QUEUE_NAME = "myqueue";
+	private final static String QUEUE_NAME = "myqueue";
 
-    @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
-       
-        try {
+		try {
 			String message = request.getParameter("message");
-			System.out.println("message= " + message);    
-			 
-			
+			System.out.println("message= " + message);
+
 			ConnectionFactory factory = new ConnectionFactory();
-        	String uri = System.getProperty("CLOUDAMQP_URL");
+			String uri = System.getProperty("CLOUDAMQP_URL");
 			factory.setUri(uri);
-	        Connection connection = factory.newConnection();
-	        Channel channel = connection.createChannel();
+			Connection connection = factory.newConnection();
+			Channel channel = connection.createChannel();
 
-	        boolean durable = true;
-	        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
+			boolean durable = true;
+			channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
 
-	        channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
-	        System.out.println(" [x] Sent '" + message + "'");
+			channel.basicPublish("", QUEUE_NAME,
+					MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+			System.out.println(" [x] Sent '" + message + "'");
 
-	        channel.close();
-	        connection.close();
+			channel.close();
+			connection.close();
 
-	        response.sendRedirect(request.getContextPath() + "/index.jsp");
+			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
 }
