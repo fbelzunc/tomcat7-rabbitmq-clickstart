@@ -48,14 +48,14 @@ public class RabbitMQServer extends HttpServlet {
 			ConnectionFactory factory = new ConnectionFactory();
 			String uri = System.getProperty("CLOUDAMQP_URL");
 			factory.setUri(uri);
+			
 			Connection connection = factory.newConnection();
 			Channel channel = connection.createChannel();
 
 			boolean durable = true;
 			channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
 
-			channel.basicPublish("", QUEUE_NAME,
-					MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+			channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
 			System.out.println(" [x] Sent '" + message + "'");
 
 			channel.close();

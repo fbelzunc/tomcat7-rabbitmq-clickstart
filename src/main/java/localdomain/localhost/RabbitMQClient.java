@@ -39,15 +39,16 @@ public class RabbitMQClient extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		ConnectionFactory factory = new ConnectionFactory();
+		String messages = new String();
+		
 		try {
 			String uri = System.getProperty("CLOUDAMQP_URL");
 			factory.setUri(uri);
+			
 			Connection connection = factory.newConnection();
 			Channel channel = connection.createChannel();
 
 			channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-			System.out
-					.println(" [***] Waiting for messages. To exit press CTRL+C");
 
 			QueueingConsumer consumer = new QueueingConsumer(channel);
 
@@ -56,35 +57,28 @@ public class RabbitMQClient extends HttpServlet {
 
 			System.out.println(" [*] Waiting 100ms for a message");
 			QueueingConsumer.Delivery delivery = consumer.nextDelivery(100);
-			if (delivery != null) {
-				System.out.println(" [*] Waiting");
+					
+			while(delivery != null) {
 				String message = new String(delivery.getBody());
-
+		
 				System.out.println(" [x] Received '" + message + "'");
-
+		
 				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-
-				request.setAttribute("message", message);
-				request.getRequestDispatcher("/index.jsp").forward(request,
-						response);
-
+				
+				messages = message + " <br/> " + messages;	
+				delivery = consumer.nextDelivery(100);
+			} 
+				request.setAttribute("messages", messages);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+	
 				channel.close();
 				connection.close();
-			} else {
-				String message = "NO NEW MESSAGES ON THE QUEUE";
-				request.setAttribute("message", message);
-				request.getRequestDispatcher("/index.jsp").forward(request,
-						response);
-
-				channel.close();
-				connection.close();
-			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
 
 }

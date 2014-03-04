@@ -13,6 +13,13 @@
     "runtime": {
         "type": "tomcat7"
     },
+    "services": [
+        {
+            "name": "cloudamqp",
+            "plan": "lemur",
+            "settings": {}
+        }
+    ],
     "build-with-jenkins": {
         "template": {
             "type": "maven"

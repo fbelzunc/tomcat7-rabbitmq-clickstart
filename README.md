@@ -51,12 +51,34 @@ RabbitMQClient.java
 	</dependency>
 ```
 
+#### Using a CloudAMQP instance from your application
+
+The CloudAMQP management interface displays list of your broker instances. As a quick way to get started, you can click on Show config link and then copy CLOUDAMQP_URL into your application code.  However, the preferred way to access the CLOUDAMQP_URL when deploying to RUN@cloud is to use the Bees SDK app:bind command:
+
+```sh
+	bees app:bind  -a <YOUR_APP>   -r cloudamqp:<CLOUDAMQP_RESOURCE>   -as <ALIAS>
+```
+
+That will automatically create a configuration parameter (called **CLOUDAMQP_URL**) that you can reference from your application. 
+
+```java
+	String uri = System.getProperty("CLOUDAMQP_URL");
+	ConnectionFactory factory = new ConnectionFactory();			
+	factory.setUri(uri);
+```
+
 # Create application manually
 
 ### Create Tomcat container
 
 ```sh
   bees app:create -a rabbitmq -t tomcat7
+```
+
+### Bind your CloudAMQP resource with your application (need to be subscribed to CloudAMQP)
+
+```sh
+  bees app:bind  -a rabbitmq   -r cloudamqp:resource -as GASP
 ```
 
 ### Deploy your application

@@ -15,19 +15,20 @@
     <form action="${pageContext.request.contextPath}/rabbitmq/server"
         method="post">
         <div>
-            <label>Message:</label> <input type="text" name="message"
-                id="message" /> <input type="submit" name="add"
-                value="Send message" />
+            <textarea name="message" id="message" style="width: 500px; height: 150px;"></textarea>
+            <br /> <input type="submit" name="add" value="Send message" />
         </div>
     </form>
 
-    <h2>Get a message</h2>
-    <form action="${pageContext.request.contextPath}/rabbitmq/client"
-        method="post">
+    <h2>Get a messages</h2>
+    <form action="${pageContext.request.contextPath}/rabbitmq/client" method="post">
         <div>
             <input type="submit" name="Get" value="Get message" />
         </div>
     </form>
-    <br> Last message get from the queue: ${message}
+    <br/> 
+    Messages available on the queue:
+    <br/> 
+    ${messages}
 </body>
 </html>
