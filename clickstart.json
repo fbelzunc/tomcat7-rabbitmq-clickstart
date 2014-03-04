@@ -18,6 +18,7 @@
             "name": "cloudamqp",
             "plan": "lemur",
             "alias": "rabbitinst",
+            "resource": "rabbitinst",
             "settings": {}
         }
     ],

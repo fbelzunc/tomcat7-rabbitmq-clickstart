@@ -37,11 +37,11 @@ public class RabbitMQClient extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		ConnectionFactory factory = new ConnectionFactory();
-		String messages = new String();
 		
 		try {
+			ConnectionFactory factory = new ConnectionFactory();
+			String messages = new String();
+			
 			String uri = System.getProperty("CLOUDAMQP_URL");
 			factory.setUri(uri);
 			
@@ -75,8 +75,8 @@ public class RabbitMQClient extends HttpServlet {
 				connection.close();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("throwable", e);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 		
 	}

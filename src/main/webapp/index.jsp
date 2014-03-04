@@ -11,6 +11,13 @@
 
     <h1>Tomcat 7 RabbitMQ ClickStart</h1>
 
+    <%
+        if (request.getAttribute("throwable") != null) {
+            Throwable t = (Throwable) request.getAttribute("throwable");
+    %><p>An exception occurred: <strong><code><%= t.getMessage() %></code></strong></p><%
+        }
+    %>
+
     <h2>Send a message</h2>
     <form action="${pageContext.request.contextPath}/rabbitmq/server"
         method="post">
