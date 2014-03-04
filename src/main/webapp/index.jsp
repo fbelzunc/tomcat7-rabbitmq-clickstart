@@ -37,5 +37,16 @@
     Messages available on the queue:
     <br/> 
     ${messages}
+    
+    <%
+        if (request.getAttribute("throwable") != null) {
+            Throwable t = (Throwable) request.getAttribute("throwable");
+    %><h1>Detailed exception</h1>
+    <code><pre><%
+        t.printStackTrace(new PrintWriter(out));
+    %></pre>
+    </code><%
+        }
+    %>
 </body>
 </html>

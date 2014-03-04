@@ -46,7 +46,7 @@ public class RabbitMQServer extends HttpServlet {
 			
 			ConnectionFactory factory = new ConnectionFactory();
 			String uri = System.getProperty("CLOUDAMQP_URL");
-			factory.setUri(uri);		
+			factory.setUri(uri);	
 			
 			Connection connection = factory.newConnection();
 			Channel channel = connection.createChannel();
@@ -62,7 +62,7 @@ public class RabbitMQServer extends HttpServlet {
 
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		} catch (Exception e) {
-			request.setAttribute("throwable", e.toString());
+			request.setAttribute("throwable", e);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 	}
